@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    # Quando migrar de armazenamento em memória para Postgres,
+    # descomente o depends_on e a variável DATABASE_URL abaixo.
+    # depends_on:
+    #   - db
+    # environment:
+    #   - DATABASE_URL=postgresql://todo:todo@db:5432/todo
+
+  # db:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     - POSTGRES_USER=todo
+  #     - POSTGRES_PASSWORD=todo
+  #     - POSTGRES_DB=todo
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - db_data:/var/lib/postgresql/data
+
+# volumes:
+#   db_data:

@@ -1,0 +1,24 @@
+{
+  "name": "todo-api",
+  "version": "1.0.0",
+  "description": "API de lista de tarefas - projeto de portfolio DevOps + QA",
+  "main": "src/app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "lint": "eslint src tests"
+  },
+  "keywords": ["devops", "qa", "ci-cd", "portfolio"],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "eslint": "^8.57.0"
+  }
+}
