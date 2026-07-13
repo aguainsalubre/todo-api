@@ -15,8 +15,8 @@ qualidade.
 - **Lint:** ESLint
 - **Containerização:** Docker / docker-compose
 - **CI/CD:** GitHub Actions
-- **Infra (próximo módulo):** Terraform + AWS
-- **Observabilidade (próximo módulo):** Prometheus + Grafana
+- **Infra:** Terraform + AWS (EC2)
+- **Observabilidade (próximo módulo):** Prometheus/Grafana ou CloudWatch
 
 ## Endpoints
 
@@ -76,12 +76,43 @@ O workflow em `.github/workflows/ci.yml` roda a cada push/PR na `main`:
 4. Builda a imagem Docker (só executa se os testes passarem)
 5. Faz um smoke test do container (sobe o container e chama `/health`)
 
-## Roadmap do projeto
+## Infraestrutura (Módulo 4)
+
+A aplicação é provisionada na AWS via Terraform — código completo em [`infra/`](./infra).
+
+**Arquitetura:**
+- 1x EC2 (`t3.micro`, free tier) rodando Amazon Linux 2023
+- Security Group liberando a porta da API publicamente e SSH restrito a um único IP
+- `user_data` instala Docker, clona este repositório e builda/sobe o container automaticamente no boot da instância — ou seja, o deploy é 100% automatizado a partir do `terraform apply`
+
+**Deploy:**
+```bash
+cd infra
+cp terraform.tfvars.example terraform.tfvars   # preencha seu IP e a URL do repo
+terraform init
+terraform plan
+terraform apply
+```
+
+Após alguns minutos, a saída `app_url` do Terraform já responde:
+```bash
+curl http://<ip-publico>:3000/health
+# {"status":"ok","uptime":41.12}
+```
+
+**Para desprovisionar (evita gastar horas do free tier à toa):**
+```bash
+terraform destroy
+```
+
+Mais detalhes, incluindo a lista completa de recursos criados, em [`infra/README.md`](./infra/README.md).
+
+
 
 - [x] Módulo 1 — App containerizada
 - [x] Módulo 2 — Testes automatizados + test plan
 - [x] Módulo 3 — Pipeline CI/CD
-- [ ] Módulo 4 — Infraestrutura como código (Terraform + AWS)
+- [x] Módulo 4 — Infraestrutura como código (Terraform + AWS) — veja `infra/`
 - [ ] Módulo 5 — Monitoramento (Prometheus/Grafana ou CloudWatch)
 
 ## Licença

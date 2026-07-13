@@ -1,0 +1,5 @@
+# Copie este arquivo para terraform.tfvars e preencha com seus valores.
+# NUNCA commite o terraform.tfvars real (ele já está no .gitignore da infra).
+
+my_ip            = "138.94.52.239/32"
+github_repo_url  = "https://github.com/aguainsalubre/todo-api.git"
